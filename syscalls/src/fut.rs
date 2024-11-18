@@ -1,9 +1,10 @@
 use crate::{raw, Errno, Sysno};
 use core::{
-    pin::Pin, 
-    task::{Context, Poll}, 
-    future::Future, 
     cell::Cell,
+    future::Future,
+    ops::Deref,
+    pin::Pin,
+    task::{Context, Poll}
 };
 use alloc::vec::Vec;
 
@@ -38,7 +39,7 @@ impl SyscallFuture {
         Self { has_issued: false, id, args: Vec::from(args), res: SyscallRes(Cell::new(None)) }
     }
 
-    fn run(&mut self) {
+    pub(crate) fn run(&mut self) {
         // 目前仍然是通过 ecall 来发起系统调用
         let _ret_ptr = self.res.get_ptr() as *mut usize as usize;
         // 需要新增一个参数来记录返回值的位置
@@ -144,6 +145,17 @@ impl Future for SyscallFuture {
             } else {
                 return Poll::Pending;
             }
+        }
+    }
+}
+
+#[cfg(feature = "thread")]
+impl Deref for SyscallFuture {
+    type Target = Result<usize, Errno>;
+
+    fn deref(&self) -> &Self::Target {
+        unsafe {
+            &(&*self.res.0.as_ptr()).as_ref().unwrap()
         }
     }
 }

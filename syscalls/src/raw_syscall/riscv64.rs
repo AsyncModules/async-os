@@ -12,7 +12,7 @@
 //
 // No other registers are clobbered.
 use core::arch::asm;
-use super::ASYNC_FLAG;
+use super::IS_ASYNC;
 
 /// Issues a raw async system call with 0 arguments.
 ///
@@ -26,7 +26,7 @@ pub unsafe fn syscall0(n: usize, ret_ptr: usize) -> usize {
     asm!(
         "ecall",
         in("a7") n,
-        in("t0") ASYNC_FLAG,
+        in("t0") IS_ASYNC,
         in("t1") ret_ptr,
         out("a0") ret,
         options(nostack, preserves_flags)
@@ -47,7 +47,7 @@ pub unsafe fn syscall1(n: usize, arg1: usize, ret_ptr: usize) -> usize {
         "ecall",
         in("a7") n,
         inlateout("a0") arg1 => ret,
-        in("t0") ASYNC_FLAG,
+        in("t0") IS_ASYNC,
         in("t1") ret_ptr,
         options(nostack, preserves_flags)
     );
@@ -68,7 +68,7 @@ pub unsafe fn syscall2(n: usize, arg1: usize, arg2: usize, ret_ptr: usize) -> us
         in("a7") n,
         inlateout("a0") arg1 => ret,
         in("a1") arg2,
-        in("t0") ASYNC_FLAG,
+        in("t0") IS_ASYNC,
         in("t1") ret_ptr,
         options(nostack, preserves_flags)
     );
@@ -96,7 +96,7 @@ pub unsafe fn syscall3(
         inlateout("a0") arg1 => ret,
         in("a1") arg2,
         in("a2") arg3,
-        in("t0") ASYNC_FLAG,
+        in("t0") IS_ASYNC,
         in("t1") ret_ptr,
         options(nostack, preserves_flags)
     );
@@ -126,7 +126,7 @@ pub unsafe fn syscall4(
         in("a1") arg2,
         in("a2") arg3,
         in("a3") arg4,
-        in("t0") ASYNC_FLAG,
+        in("t0") IS_ASYNC,
         in("t1") ret_ptr,
         options(nostack, preserves_flags)
     );
@@ -158,7 +158,7 @@ pub unsafe fn syscall5(
         in("a2") arg3,
         in("a3") arg4,
         in("a4") arg5,
-        in("t0") ASYNC_FLAG,
+        in("t0") IS_ASYNC,
         in("t1") ret_ptr,
         options(nostack, preserves_flags)
     );
@@ -192,7 +192,7 @@ pub unsafe fn syscall6(
         in("a3") arg4,
         in("a4") arg5,
         in("a5") arg6,
-        in("t0") ASYNC_FLAG,
+        in("t0") IS_ASYNC,
         in("t1") ret_ptr,
         options(nostack, preserves_flags)
     );

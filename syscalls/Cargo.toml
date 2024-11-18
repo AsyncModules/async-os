@@ -7,3 +7,6 @@ edition = "2021"
 cfg-if = "1.0"
 libc = "0.2.151"
 syscalls = { version = "0.6", default-features = false }
+
+[features]
+thread = []

@@ -24,3 +24,8 @@ pub mod raw {
 }
 
 pub(crate) const ASYNC_FLAG: usize = 0x5f5f5f5f;
+
+#[cfg(feature = "thread")]
+pub(crate) const IS_ASYNC: usize = 0;
+#[cfg(not(feature = "thread"))]
+pub(crate) const IS_ASYNC: usize = ASYNC_FLAG;
