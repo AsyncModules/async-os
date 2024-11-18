@@ -18,7 +18,7 @@ pub fn sys_write(fd: i32, buf: &[u8]) -> SyscallFuture {
 /// 用于预处理新建的`SyscallFuture`，使系统调用接口支持`await`和`non-await`两种调用方法
 /// 如果使能了`thread` feature，则会在该函数内部（也就是各个系统调用接口内部）陷入内核执行系统调用，并得到带有结果的`SyscallFuture`；
 /// 如果未使能`thread` feature，则该函数不会做任何处理，原样返回不带结果的`SyscallFuture`，协程通过`.await`调用该Future并得到结果。
-fn run_sysfut(sf: SyscallFuture) -> SyscallFuture {
+fn run_sysfut(mut sf: SyscallFuture) -> SyscallFuture {
     // cfg_if::cfg_if! {
     //     if #[cfg(feature = "thread")] {
     //         sf.run(); // 在阻塞的系统调用模式下，一次调用一定能返回结果

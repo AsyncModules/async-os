@@ -5,3 +5,9 @@ edition = "2021"
 
 [dependencies]
 syscalls = { path = "../../syscalls" }
+
+[features]
+async-await = []
+async-non-await = ["syscalls/thread"]
+non-async-non-await = ["syscalls/thread"]
+default = ["non-async-non-await"]
