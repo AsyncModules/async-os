@@ -5,3 +5,6 @@
 [submodule "vdso/cops"]
 	path = vdso/cops
 	url = https://github.com/AsyncModules/cops.git
+[submodule "vdso/pilf_buddy_alloc"]
+	path = vdso/pilf_buddy_alloc
+	url = https://github.com/AsyncModules/pilf_buddy_alloc
